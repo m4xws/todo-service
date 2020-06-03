@@ -7,8 +7,10 @@ import org.eclipse.microprofile.health.Readiness;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.Resource;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.persistence.PersistenceContext;
 import javax.sql.DataSource;
 
 @Readiness
@@ -17,8 +19,8 @@ public class ReadinessHealthCheck implements HealthCheck {
 
     private static final Logger LOG = LoggerFactory.getLogger(ReadinessHealthCheck.class);
 
-    @Inject
-    private DataSource datasource;
+    @Resource(name = "ExampleDS")
+    DataSource datasource;
 
     @Override
     public HealthCheckResponse call() {
