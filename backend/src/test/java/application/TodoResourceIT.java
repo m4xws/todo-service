@@ -11,11 +11,13 @@ import java.time.LocalDateTime;
 
 @RunWith(JUnit4.class)
 public class TodoResourceIT {
+    private static final String HOST = "http://localhost:8090";
+
     @Test
     public void GetTodosReturns200WithExpectedTodos() {
         RestAssured
             .when()
-            .get("http://localhost:8080/todo-service-1.0-SNAPSHOT/api/todos/")
+            .get(HOST + "/backend-1.0-SNAPSHOT/api/todos/")
             .then()
             .statusCode(200)
             .body("size()", Matchers.is(3))
@@ -30,7 +32,7 @@ public class TodoResourceIT {
     public void GetTodoByIdReturns200WithExpectedTodo() {
         RestAssured
             .when()
-            .get("http://localhost:8080/todo-service-1.0-SNAPSHOT/api/todos/{id}", 1)
+            .get(HOST + "/backend-1.0-SNAPSHOT/api/todos/{id}", 1)
             .then()
             .statusCode(200)
             .body("id", Matchers.equalTo(1))
@@ -44,7 +46,7 @@ public class TodoResourceIT {
     public void GetTodoByIdReturns404() {
         RestAssured
             .when()
-            .get("http://localhost:8080/todo-service-1.0-SNAPSHOT/api/todos/{id}", 100)
+            .get(HOST + "/backend-1.0-SNAPSHOT/api/todos/{id}", 100)
             .then()
             .statusCode(404);
     }
@@ -53,7 +55,7 @@ public class TodoResourceIT {
     public void GetTodoByIdReturns400ForNegativeId() {
         RestAssured
             .when()
-            .get("http://localhost:8080/todo-service-1.0-SNAPSHOT/api/todos/{id}", -1)
+            .get(HOST + "/backend-1.0-SNAPSHOT/api/todos/{id}", -1)
             .then()
             .statusCode(400)
             .body(Matchers.equalTo("[{\"errorCode\":\"NEGATIVE_TODO_ID\",\"message\":\"todoId must be greater than or equal to 0\"}]"));
@@ -67,7 +69,7 @@ public class TodoResourceIT {
             .contentType(MediaType.APPLICATION_JSON)
             .body(new BaseTodoDTO("new name", "new description", false, LocalDateTime.MIN.toString()))
             .when()
-            .put("http://localhost:8080/todo-service-1.0-SNAPSHOT/api/todos/{id}", 2)
+            .put(HOST + "/backend-1.0-SNAPSHOT/api/todos/{id}", 2)
             .then()
             .statusCode(204);
     }
@@ -80,7 +82,7 @@ public class TodoResourceIT {
             .contentType(MediaType.APPLICATION_JSON)
             .body(new BaseTodoDTO("new name 2", "new description 2", false, LocalDateTime.MIN.toString()))
             .when()
-            .put("http://localhost:8080/todo-service-1.0-SNAPSHOT/api/todos/{id}", 100)
+            .put(HOST + "/backend-1.0-SNAPSHOT/api/todos/{id}", 100)
             .then()
             .statusCode(404);
     }
@@ -93,7 +95,7 @@ public class TodoResourceIT {
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(new BaseTodoDTO("new name 2", "new description 2", false, LocalDateTime.MIN.toString()))
                 .when()
-                .put("http://localhost:8080/todo-service-1.0-SNAPSHOT/api/todos/{id}", -100)
+                .put(HOST + "/backend-1.0-SNAPSHOT/api/todos/{id}", -100)
                 .then()
                 .statusCode(400)
                 .body(Matchers.equalTo("[{\"errorCode\":\"NEGATIVE_TODO_ID\",\"message\":\"todoId must be greater than or equal to 0\"}]"));
@@ -104,7 +106,7 @@ public class TodoResourceIT {
         RestAssured.given()
             .contentType(MediaType.APPLICATION_JSON)
             .when()
-            .put("http://localhost:8080/todo-service-1.0-SNAPSHOT/api/todos/{id}", 1)
+            .put(HOST + "/backend-1.0-SNAPSHOT/api/todos/{id}", 1)
             .then()
             .statusCode(400)
             .body(Matchers.equalTo("[{\"errorCode\":\"BASETODO_NULL\",\"message\":\"baseTodo must not be null\"}]"));
@@ -116,7 +118,7 @@ public void UpdateTodoReturns400ForNameIsNull() {
             .contentType(MediaType.APPLICATION_JSON)
             .body(new BaseTodoDTO(null, "new description", false, LocalDateTime.MIN.toString()))
             .when()
-            .put("http://localhost:8080/todo-service-1.0-SNAPSHOT/api/todos/{id}", 1)
+            .put(HOST + "/backend-1.0-SNAPSHOT/api/todos/{id}", 1)
             .then()
             .statusCode(400)
             .body(Matchers.equalTo("[{\"errorCode\":\"TITLE_NULL\",\"message\":\"title must not be null\"}]"));
@@ -128,7 +130,7 @@ public void UpdateTodoReturns400ForNameIsNull() {
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(new BaseTodoDTO("", "new description", false, LocalDateTime.MIN.toString()))
                 .when()
-                .put("http://localhost:8080/todo-service-1.0-SNAPSHOT/api/todos/{id}", 1)
+                .put(HOST + "/backend-1.0-SNAPSHOT/api/todos/{id}", 1)
                 .then()
                 .statusCode(400)
                 .body(Matchers.equalTo("[{\"errorCode\":\"TITLE_SIZE\",\"message\":\"title size must be between 1 and 30\"}]"));
@@ -140,7 +142,7 @@ public void UpdateTodoReturns400ForNameIsNull() {
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(new BaseTodoDTO("new name", "new description", false, null))
                 .when()
-                .put("http://localhost:8080/todo-service-1.0-SNAPSHOT/api/todos/{id}", 1)
+                .put(HOST + "/backend-1.0-SNAPSHOT/api/todos/{id}", 1)
                 .then()
                 .statusCode(400)
                 .body(Matchers.equalTo("[{\"errorCode\":\"DUEDATE_NULL\",\"message\":\"dueDate must not be null\"}]"));
@@ -152,7 +154,7 @@ public void UpdateTodoReturns400ForNameIsNull() {
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(new BaseTodoDTO("new name", "new descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew description", false, LocalDateTime.MIN.toString()))
                 .when()
-                .put("http://localhost:8080/todo-service-1.0-SNAPSHOT/api/todos/{id}", 1)
+                .put(HOST + "/backend-1.0-SNAPSHOT/api/todos/{id}", 1)
                 .then()
                 .statusCode(400)
                 .body(Matchers.equalTo("[{\"errorCode\":\"DESCRIPTION_SIZE\",\"message\":\"description size must be between 0 and 500\"}]"));
@@ -164,7 +166,7 @@ public void UpdateTodoReturns400ForNameIsNull() {
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(new BaseTodoDTO("", "new descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew description", false, null))
                 .when()
-                .put("http://localhost:8080/todo-service-1.0-SNAPSHOT/api/todos/{id}", 1)
+                .put(HOST + "/backend-1.0-SNAPSHOT/api/todos/{id}", 1)
                 .then()
                 .statusCode(400)
                 .body(Matchers.containsString("{\"errorCode\":\"TITLE_SIZE\",\"message\":\"title size must be between 1 and 30\"}"))
@@ -178,7 +180,7 @@ public void UpdateTodoReturns400ForNameIsNull() {
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(new BaseTodoDTO("new name", "new description", false, LocalDateTime.MIN.toString()))
                 .when()
-                .post("http://localhost:8080/todo-service-1.0-SNAPSHOT/api/todos")
+                .post(HOST + "/backend-1.0-SNAPSHOT/api/todos")
                 .then()
                 .contentType(MediaType.TEXT_PLAIN)
                 .statusCode(201)
@@ -190,7 +192,7 @@ public void UpdateTodoReturns400ForNameIsNull() {
         RestAssured.given()
                 .contentType(MediaType.APPLICATION_JSON)
                 .when()
-                .post("http://localhost:8080/todo-service-1.0-SNAPSHOT/api/todos")
+                .post(HOST + "/backend-1.0-SNAPSHOT/api/todos")
                 .then()
                 .statusCode(400)
                 .body(Matchers.equalTo("[{\"errorCode\":\"BASETODO_NULL\",\"message\":\"baseTodo must not be null\"}]"));
@@ -202,7 +204,7 @@ public void UpdateTodoReturns400ForNameIsNull() {
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(new BaseTodoDTO(null, "new description", false, LocalDateTime.MIN.toString()))
                 .when()
-                .post("http://localhost:8080/todo-service-1.0-SNAPSHOT/api/todos")
+                .post(HOST + "/backend-1.0-SNAPSHOT/api/todos")
                 .then()
                 .statusCode(400)
                 .body(Matchers.equalTo("[{\"errorCode\":\"TITLE_NULL\",\"message\":\"title must not be null\"}]"));
@@ -214,7 +216,7 @@ public void UpdateTodoReturns400ForNameIsNull() {
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(new BaseTodoDTO("", "new description", false, LocalDateTime.MIN.toString()))
                 .when()
-                .post("http://localhost:8080/todo-service-1.0-SNAPSHOT/api/todos")
+                .post(HOST + "/backend-1.0-SNAPSHOT/api/todos")
                 .then()
                 .statusCode(400)
                 .body(Matchers.equalTo("[{\"errorCode\":\"TITLE_SIZE\",\"message\":\"title size must be between 1 and 30\"}]"));
@@ -226,7 +228,7 @@ public void UpdateTodoReturns400ForNameIsNull() {
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(new BaseTodoDTO("new name", "new description", false, null))
                 .when()
-                .post("http://localhost:8080/todo-service-1.0-SNAPSHOT/api/todos")
+                .post(HOST + "/backend-1.0-SNAPSHOT/api/todos")
                 .then()
                 .statusCode(400)
                 .body(Matchers.equalTo("[{\"errorCode\":\"DUEDATE_NULL\",\"message\":\"dueDate must not be null\"}]"));
@@ -238,7 +240,7 @@ public void UpdateTodoReturns400ForNameIsNull() {
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(new BaseTodoDTO("new name", "new descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew description", false, LocalDateTime.MIN.toString()))
                 .when()
-                .post("http://localhost:8080/todo-service-1.0-SNAPSHOT/api/todos")
+                .post(HOST + "/backend-1.0-SNAPSHOT/api/todos")
                 .then()
                 .statusCode(400)
                 .body(Matchers.equalTo("[{\"errorCode\":\"DESCRIPTION_SIZE\",\"message\":\"description size must be between 0 and 500\"}]"));
@@ -250,7 +252,7 @@ public void UpdateTodoReturns400ForNameIsNull() {
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(new BaseTodoDTO("", "new descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew descriptionnew description", false, null))
                 .when()
-                .post("http://localhost:8080/todo-service-1.0-SNAPSHOT/api/todos")
+                .post(HOST + "/backend-1.0-SNAPSHOT/api/todos")
                 .then()
                 .statusCode(400)
                 .body(Matchers.containsString("{\"errorCode\":\"TITLE_SIZE\",\"message\":\"title size must be between 1 and 30\"}"))
@@ -263,7 +265,7 @@ public void UpdateTodoReturns400ForNameIsNull() {
         RestAssured
             .given()
             .when()
-            .delete("http://localhost:8080/todo-service-1.0-SNAPSHOT/api/todos/{id}", 1)
+            .delete(HOST + "/backend-1.0-SNAPSHOT/api/todos/{id}", 1)
             .then()
             .statusCode(204);
     }
@@ -273,7 +275,7 @@ public void UpdateTodoReturns400ForNameIsNull() {
         RestAssured
             .given()
             .when()
-            .delete("http://localhost:8080/todo-service-1.0-SNAPSHOT/api/todos/{id}", 100)
+            .delete(HOST + "/backend-1.0-SNAPSHOT/api/todos/{id}", 100)
             .then()
             .statusCode(404);
     }
@@ -283,7 +285,7 @@ public void UpdateTodoReturns400ForNameIsNull() {
         RestAssured
                 .given()
                 .when()
-                .delete("http://localhost:8080/todo-service-1.0-SNAPSHOT/api/todos/{id}", -1)
+                .delete(HOST + "/backend-1.0-SNAPSHOT/api/todos/{id}", -1)
                 .then()
                 .statusCode(400)
                 .body(Matchers.equalTo("[{\"errorCode\":\"NEGATIVE_TODO_ID\",\"message\":\"todoId must be greater than or equal to 0\"}]"));
