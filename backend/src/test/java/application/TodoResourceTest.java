@@ -1,5 +1,8 @@
 package application;
 
+import application.todo.BaseTodoDTO;
+import application.todo.FullTodoDTO;
+import application.todo.TodoResource;
 import domain.Todo;
 import domain.TodoService;
 import org.junit.jupiter.api.Test;

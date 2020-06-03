@@ -1,6 +1,6 @@
 package domain;
 
-import application.BaseTodoDTO;
+import application.todo.BaseTodoDTO;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

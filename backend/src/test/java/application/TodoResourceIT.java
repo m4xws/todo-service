@@ -1,5 +1,6 @@
 package application;
 
+import application.todo.BaseTodoDTO;
 import io.restassured.RestAssured;
 import org.hamcrest.Matchers;
 import org.junit.Test;

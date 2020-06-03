@@ -1,4 +1,4 @@
-package application;
+package application.todo;
 
 import domain.Todo;
 import domain.TodoService;
