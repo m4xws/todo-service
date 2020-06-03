@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todo-service-backend-deployment
+  namespace: todo-service
+  labels:
+    todo-service: backend
+    version: 1.0-SNAPSHOT
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      todo-service: backend
+  template:
+    metadata:
+      labels:
+        todo-service: backend
+    spec:
+      containers:
+        - name: backend
+          image: kingmaxwell/todo-service-backend:1.0-SNAPSHOT
+          livenessProbe:
+            initialDelaySeconds: 2
+            periodSeconds: 5
+            httpGet:
+              path: /health/live
+              port: management
+          readinessProbe:
+            initialDelaySeconds: 10
+            httpGet:
+              path: /health/ready
+              port: management
+          ports:
+            - containerPort: 8080
+              name: api
+            - containerPort: 9990
+              name: management
