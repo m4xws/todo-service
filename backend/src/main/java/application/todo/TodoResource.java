@@ -11,6 +11,7 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -19,6 +20,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
@@ -43,6 +45,16 @@ public class TodoResource {
 
   @GET
   public Response getTodos() {
+    LOG.info("Get all todos");
+    List<FullTodoDTO> listFullTodoDTO = new ArrayList<>();
+    for (Todo todo: todoService.listTodo()) {
+      listFullTodoDTO.add(new FullTodoDTO(todo));
+    }
+    return Response.ok().entity(listFullTodoDTO).build();
+  }
+
+  @GET
+  public Response getTodosPaginated(@QueryParam("limit") @Size(min = 5,max = 50,payload = TodoValidationErrorPayload.LimitSize.class) final int limit, @QueryParam("offset") @Min(value = 0, payload = TodoValidationErrorPayload.NegativOffset.class) final int offset) {
     LOG.info("Get all todos");
     List<FullTodoDTO> listFullTodoDTO = new ArrayList<>();
     for (Todo todo: todoService.listTodo()) {

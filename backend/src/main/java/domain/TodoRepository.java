@@ -29,6 +29,27 @@ public class TodoRepository {
     return allQuery.getResultList();
   }
 
+  public List<Todo> findAllPaginated(int limit, int offset) {
+    LOG.info("Get ALL todos");
+
+    CriteriaBuilder cb = em.getCriteriaBuilder();
+    CriteriaQuery<Todo> cq = cb.createQuery(Todo.class);
+
+    Root<Todo> root = cq.from(Todo.class);
+    cq.select(root);
+
+    TypedQuery<Todo> query = em.createQuery(cq);
+    query.setFirstResult(offset * limit);
+    query.setMaxResults(limit);
+
+    List<Todo> resultList = query.getResultList();
+
+    LOG.info("Found {} todos", resultList.size());
+
+    return resultList;
+  }
+
+
   public Todo findById(final long todoId) {
     LOG.info("Get todo by id: {}", todoId);
     return em.find(Todo.class, todoId);

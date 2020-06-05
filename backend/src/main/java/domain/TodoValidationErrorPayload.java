@@ -10,6 +10,18 @@ public final class TodoValidationErrorPayload {
         }
     }
 
+    public static class LimitSize extends ValidationErrorPayload {
+        public LimitSize() {
+            super("LIMIT_SIZE", "limit must be between 5 and 50");
+        }
+    }
+
+    public static class NegativOffset extends ValidationErrorPayload {
+        public NegativOffset() {
+            super("NEGATIVE_OFFSET", "offset must be greater than or equal to 0");
+        }
+    }
+
     public static class TitleIsInvalid extends ValidationErrorPayload {
         public TitleIsInvalid() {
             super("TITLE_NULL", "title must not be null");
@@ -39,7 +51,4 @@ public final class TodoValidationErrorPayload {
             super("BASETODO_NULL", "baseTodo must not be null");
         }
     }
-
-
-
 }

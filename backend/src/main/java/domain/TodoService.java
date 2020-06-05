@@ -22,21 +22,16 @@ public class TodoService {
   private static final Logger LOG = LoggerFactory.getLogger(TodoService.class);
 
   public TodoService() {
-
-  }
-
-  @PostConstruct
-  public void init(){
-    LOG.info("TodoService initialized");
-    todoList = new ArrayList<>();
-    todoList.add(new Todo(1, "Bla", "Do the bla", true, LocalDateTime.of(2020, Month.JANUARY, 10, 7, 30)));
-    todoList.add(new Todo(2, "Blubb", "Do the blubb", false, LocalDateTime.of(2020, Month.FEBRUARY, 20, 10, 00)));
-
   }
 
   public List<Todo> listTodo() {
     LOG.info("Get all todos");
     return todoRepository.getTodos();
+  }
+
+  public List<Todo> listTodoPaginated(final int limit, final int offset) {
+    LOG.info("Find up to {} todos",limit);
+    return todoRepository.findAllPaginated(limit, offset);
   }
 
   public Todo getTodoById(final long todoId) {
