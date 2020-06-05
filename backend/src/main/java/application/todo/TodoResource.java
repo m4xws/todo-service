@@ -30,88 +30,88 @@ import java.util.List;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class TodoResource {
-  private static final Logger LOG = LoggerFactory.getLogger(TodoResource.class);
+    private static final Logger LOG = LoggerFactory.getLogger(TodoResource.class);
 
-  @Inject
-  private TodoService todoService;
+    @Inject
+    private TodoService todoService;
 
-  public TodoResource() {
-    LOG.info("Todo Resource created");
-  }
-
-  public TodoResource(final TodoService todoService) {
-    this.todoService = todoService;
-  }
-
-  @GET
-  public Response getTodos() {
-    LOG.info("Get all todos");
-    List<FullTodoDTO> listFullTodoDTO = new ArrayList<>();
-    for (Todo todo: todoService.listTodo()) {
-      listFullTodoDTO.add(new FullTodoDTO(todo));
+    public TodoResource() {
+        LOG.info("Todo Resource created");
     }
-    return Response.ok().entity(listFullTodoDTO).build();
-  }
 
-  @GET
-  public Response getTodosPaginated(@QueryParam("limit") @Size(min = 5,max = 50,payload = TodoValidationErrorPayload.LimitSize.class) final int limit, @QueryParam("offset") @Min(value = 0, payload = TodoValidationErrorPayload.NegativOffset.class) final int offset) {
-    LOG.info("Get all todos");
-    List<FullTodoDTO> listFullTodoDTO = new ArrayList<>();
-    for (Todo todo: todoService.listTodo()) {
-      listFullTodoDTO.add(new FullTodoDTO(todo));
+    public TodoResource(final TodoService todoService) {
+        this.todoService = todoService;
     }
-    return Response.ok().entity(listFullTodoDTO).build();
-  }
 
-  @GET
-  @Path("/{todoId}")
-  public Response getTodoById(@PathParam("todoId") @Min(value = 0, payload = TodoValidationErrorPayload.NegativeTodoId.class) final long todoId) {
-    try {
-      LOG.info("Get todo by id: {}", todoId);
-      Todo todo = todoService.getTodoById(todoId);
-      FullTodoDTO fullTodoDTO = new FullTodoDTO(todo);
-      return Response.ok().entity(fullTodoDTO).build();
-    } catch (IllegalArgumentException e) {
-      LOG.warn("Could not find todo by id: {}", todoId);
-      return Response.status(Response.Status.NOT_FOUND).build();
+    @GET
+    public Response getTodos() {
+        LOG.info("Get all todos");
+        List<FullTodoDTO> listFullTodoDTO = new ArrayList<>();
+        for (Todo todo : todoService.listTodo()) {
+            listFullTodoDTO.add(new FullTodoDTO(todo));
+        }
+        return Response.ok().entity(listFullTodoDTO).build();
     }
-  }
 
-  @POST
-  @Produces(MediaType.TEXT_PLAIN)
-  @Transactional
-  public Response addTodo(@Valid @NotNull(payload =  TodoValidationErrorPayload.BaseTodoNull.class) final BaseTodoDTO baseTodoDTO) {
-    LOG.info("Create new todo");
-    long todoId = todoService.addTodo(baseTodoDTO);
-    String uri = "/api/todos/" + todoId;
-    return Response.status(Response.Status.CREATED).entity(uri).build();
-  }
-
-  @PUT
-  @Path("/{todoId}")
-  @Transactional
-  public Response updateTodo(@PathParam("todoId") @Min(value = 0, payload = TodoValidationErrorPayload.NegativeTodoId.class) final long todoId, @Valid @NotNull(payload =  TodoValidationErrorPayload.BaseTodoNull.class) final BaseTodoDTO baseTodoDTO) {
-    try {
-      LOG.info("Update todo by id: {}", todoId);
-      todoService.updateTodo(todoId, baseTodoDTO);
-      return Response.status(Response.Status.NO_CONTENT).build();
-    } catch (IllegalArgumentException e) {
-      LOG.warn("Update todo by id: {} not possible", todoId);
-      return Response.status(Response.Status.NOT_FOUND).build();
+    @GET
+    public Response getTodosPaginated(@QueryParam("limit") @Size(min = 5, max = 50, payload = TodoValidationErrorPayload.LimitSize.class) final int limit, @QueryParam("offset") @Min(value = 0, payload = TodoValidationErrorPayload.NegativOffset.class) final int offset) {
+        LOG.info("Get all todos");
+        List<FullTodoDTO> listFullTodoDTO = new ArrayList<>();
+        for (Todo todo : todoService.listTodo()) {
+            listFullTodoDTO.add(new FullTodoDTO(todo));
+        }
+        return Response.ok().entity(listFullTodoDTO).build();
     }
-  }
 
-  @DELETE
-  @Path("/{todoId}")
-  @Transactional
-  public Response deleteTodo(@PathParam("todoId") @Min(value = 0, payload = TodoValidationErrorPayload.NegativeTodoId.class) final long todoId) {
-    try {
-      LOG.info("Delete todo by id: {}", todoId);
-      todoService.deleteTodo(todoId);
-      return Response.status(Response.Status.NO_CONTENT).build();
-    } catch (IllegalArgumentException e) {
-      LOG.warn("Delete todo by id: {} not possible", todoId);
-      return Response.status(Response.Status.NOT_FOUND).build();
+    @GET
+    @Path("/{todoId}")
+    public Response getTodoById(@PathParam("todoId") @Min(value = 0, payload = TodoValidationErrorPayload.NegativeTodoId.class) final long todoId) {
+        try {
+            LOG.info("Get todo by id: {}", todoId);
+            Todo todo = todoService.getTodoById(todoId);
+            FullTodoDTO fullTodoDTO = new FullTodoDTO(todo);
+            return Response.ok().entity(fullTodoDTO).build();
+        } catch (IllegalArgumentException e) {
+            LOG.warn("Could not find todo by id: {}", todoId);
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
     }
-  }
+
+    @POST
+    @Produces(MediaType.TEXT_PLAIN)
+    @Transactional
+    public Response addTodo(@Valid @NotNull(payload = TodoValidationErrorPayload.BaseTodoNull.class) final BaseTodoDTO baseTodoDTO) {
+        LOG.info("Create new todo");
+        long todoId = todoService.addTodo(baseTodoDTO);
+        String uri = "/api/todos/" + todoId;
+        return Response.status(Response.Status.CREATED).entity(uri).build();
+    }
+
+    @PUT
+    @Path("/{todoId}")
+    @Transactional
+    public Response updateTodo(@PathParam("todoId") @Min(value = 0, payload = TodoValidationErrorPayload.NegativeTodoId.class) final long todoId, @Valid @NotNull(payload = TodoValidationErrorPayload.BaseTodoNull.class) final BaseTodoDTO baseTodoDTO) {
+        try {
+            LOG.info("Update todo by id: {}", todoId);
+            todoService.updateTodo(todoId, baseTodoDTO);
+            return Response.status(Response.Status.NO_CONTENT).build();
+        } catch (IllegalArgumentException e) {
+            LOG.warn("Update todo by id: {} not possible", todoId);
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+    }
+
+    @DELETE
+    @Path("/{todoId}")
+    @Transactional
+    public Response deleteTodo(@PathParam("todoId") @Min(value = 0, payload = TodoValidationErrorPayload.NegativeTodoId.class) final long todoId) {
+        try {
+            LOG.info("Delete todo by id: {}", todoId);
+            todoService.deleteTodo(todoId);
+            return Response.status(Response.Status.NO_CONTENT).build();
+        } catch (IllegalArgumentException e) {
+            LOG.warn("Delete todo by id: {} not possible", todoId);
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+    }
 }

@@ -15,7 +15,7 @@ public class FullTodoDTO {
 
     private String dueDate;
 
-    public FullTodoDTO(){
+    public FullTodoDTO() {
     }
 
     public FullTodoDTO(Todo todo) {

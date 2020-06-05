@@ -15,10 +15,11 @@ public class ValidationErrorDTO {
     private static final Logger LOG = LoggerFactory.getLogger(ValidationErrorDTO.class);
 
     public ValidationErrorDTO(final ConstraintViolation violation) {
-        Class<? extends Payload> clazz = (Class<? extends Payload>)violation.getConstraintDescriptor().getPayload().iterator().next();
+        Class<? extends Payload> clazz = (Class<? extends Payload>) violation.getConstraintDescriptor().getPayload()
+                .iterator().next();
         ValidationErrorPayload payload = null;
         try {
-            payload = (ValidationErrorPayload)clazz.newInstance();
+            payload = (ValidationErrorPayload) clazz.newInstance();
             this.errorCode = payload.getErrorCode();
             this.message = payload.getMessage();
         } catch (InstantiationException | IllegalAccessException e) {

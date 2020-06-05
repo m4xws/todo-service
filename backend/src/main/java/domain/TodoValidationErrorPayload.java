@@ -46,7 +46,7 @@ public final class TodoValidationErrorPayload {
         }
     }
 
-    public static  class BaseTodoNull extends ValidationErrorPayload {
+    public static class BaseTodoNull extends ValidationErrorPayload {
         public BaseTodoNull() {
             super("BASETODO_NULL", "baseTodo must not be null");
         }

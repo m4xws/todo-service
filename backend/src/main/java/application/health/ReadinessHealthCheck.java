@@ -1,6 +1,5 @@
 package application.health;
 
-import application.todo.TodoResource;
 import org.eclipse.microprofile.health.HealthCheck;
 import org.eclipse.microprofile.health.HealthCheckResponse;
 import org.eclipse.microprofile.health.Readiness;
@@ -9,8 +8,6 @@ import org.slf4j.LoggerFactory;
 
 import javax.annotation.Resource;
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import javax.persistence.PersistenceContext;
 import javax.sql.DataSource;
 
 @Readiness
