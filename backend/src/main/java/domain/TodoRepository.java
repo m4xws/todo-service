@@ -30,7 +30,7 @@ public class TodoRepository {
     }
 
     public List<Todo> findAllPaginated(int limit, int offset) {
-        LOG.info("Get ALL todos");
+        LOG.info("Get todos paginated");
 
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Todo> cq = cb.createQuery(Todo.class);

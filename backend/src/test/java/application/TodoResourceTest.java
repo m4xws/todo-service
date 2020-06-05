@@ -45,7 +45,7 @@ public class TodoResourceTest {
         Mockito.doReturn(mock)
                 .when(service)
                 .listTodo();
-        Response response = this.resource.getTodos();
+        Response response = this.resource.getAllTodos();
 
         assertEquals(expected, response.getEntity());
     }

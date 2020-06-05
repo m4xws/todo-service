@@ -44,7 +44,8 @@ public class TodoResource {
     }
 
     @GET
-    public Response getTodos() {
+    @Path("/all")
+    public Response getAllTodos() {
         LOG.info("Get all todos");
         List<FullTodoDTO> listFullTodoDTO = new ArrayList<>();
         for (Todo todo : todoService.listTodo()) {
