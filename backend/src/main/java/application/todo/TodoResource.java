@@ -25,6 +25,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Path("/todos")
 @Produces(MediaType.APPLICATION_JSON)
@@ -47,20 +48,20 @@ public class TodoResource {
     @Path("/all")
     public Response getAllTodos() {
         LOG.info("Get all todos");
-        List<FullTodoDTO> listFullTodoDTO = new ArrayList<>();
-        for (Todo todo : todoService.listTodo()) {
-            listFullTodoDTO.add(new FullTodoDTO(todo));
-        }
+        List<FullTodoDTO> listFullTodoDTO = todoService.listTodo()
+                .stream()
+                .map(FullTodoDTO::new)
+                .collect(Collectors.toList());
         return Response.ok().entity(listFullTodoDTO).build();
     }
 
     @GET
     public Response getTodosPaginated(@QueryParam("limit") @Size(min = 5, max = 50, payload = TodoValidationErrorPayload.LimitSize.class) final int limit, @QueryParam("offset") @Min(value = 0, payload = TodoValidationErrorPayload.NegativOffset.class) final int offset) {
-        LOG.info("Get all todos");
-        List<FullTodoDTO> listFullTodoDTO = new ArrayList<>();
-        for (Todo todo : todoService.listTodo()) {
-            listFullTodoDTO.add(new FullTodoDTO(todo));
-        }
+        LOG.info("Get all todos paginated");
+        List<FullTodoDTO> listFullTodoDTO = this.todoService.listTodoPaginated(limit, offset)
+                .stream()
+                .map(FullTodoDTO::new)
+                .collect(Collectors.toList());
         return Response.ok().entity(listFullTodoDTO).build();
     }
 
