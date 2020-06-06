@@ -56,8 +56,8 @@ public class TodoRepository {
     }
 
     public long addTodo(final Todo todo) {
-        LOG.info("Add todo: {}", todo);
         em.persist(todo);
+        LOG.info("Add todo: {}", todo);
         return todo.getId();
     }
 
