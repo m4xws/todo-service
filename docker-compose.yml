@@ -4,3 +4,7 @@ services:
     image: kingmaxwell/todo-service-backend:1.7-SNAPSHOT
     ports:
       - 8090:8080
+  frontend:
+    image: kingmaxwell/todo-service-frontend:1.7-SNAPSHOT
+    ports:
+      - 8100:80
