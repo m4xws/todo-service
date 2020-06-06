@@ -4,35 +4,39 @@
     <div v-for="(todo,index) in todos" :key="todo.id" class="todo-item">
       <div class="todo-item-left">
         <input type="checkbox" v-model="todo.status">
-        <div v-if="!todo.editing" @dblclick="editTodo(todo)" class="todo-item-label"
-             :class="{ completed : todo.status }">{{ todo.description }}
+        <div v-if="!todo.editing" @click="editTodo(todo)" class="todo-item-label"
+             :class="{ completed : todo.status }">{{ todo.name }}
         </div>
-        <input v-else class="todo-item-edit" type="text" v-model="todo.description" @blur="doneEdit(todo)"
-               @keyup.enter="doneEdit(todo)" @keyup.esc="cancelEdit(todo)" v-focus>
       </div>
       <div class="remove-item" @click="removeTodo(index)">
         &times;
       </div>
     </div>
   </div>
-</template>
 
+</template>
 <script>
   import axios from "axios";
+
+  const path = 'http://localhost:8090/backend-1.7-SNAPSHOT'
 
   export default {
     name: 'todo-list',
     data() {
       return {
         newTodo: '',
-        beforeEditCache: '',
+        detail: '',
         todos: []
       }
     },
     created() {
       axios
-        .get('http://localhost:8090/backend-1.5-SNAPSHOT/api/todos/all')
-        .then(response => (this.todos = response.data), error => {
+        .get(path + '/api/todos/all')
+        .then(response => {
+          var tmpTodos = response.data
+          tmpTodos.forEach(todo => todo['editing'] = false)
+          this.todos = tmpTodos
+        }, error => {
           console.error(error);
         });
     },
@@ -49,38 +53,42 @@
           return
         }
 
-        this.todos.push({
-          description: this.newTodo,
-          dueDate: '',
-          id: '',
-          name: '',
-          status: false,
-          editing: false
-        })
+        let date = new Date();
+        date.setDate(date.getDay() + 1);
+
+        let data = {
+          'description': '',
+          'dueDate': date.toISOString().slice(0, -1),
+          'name': this.newTodo,
+          'status': false
+        };
+
+        axios.post(path + '/api/todos', data).then((response) => this.addNewTodo(data)).catch(function (error) {
+          console.log(error)
+        });
 
         this.newTodo = ''
       },
       removeTodo(index) {
         axios
-          .delete('http://localhost:8090/backend-1.5-SNAPSHOT/api/todos/' + index)
+          .delete(path + '/api/todos/' + index)
           .then(response => this.todos.splice(index, 1), error => {
             console.error(error);
           });
       },
       editTodo(todo) {
-        this.beforeEditCache = todo.description
         todo.editing = true
       },
       cancelEdit(todo) {
         todo.editing = false
-        todo.name = this.beforeEditCache
       },
       doneEdit(todo) {
-        if (todo.description.trim().length === 0) {
-          todo.name = this.beforeEditCache
-        }
         todo.editing = false
       },
+      addNewTodo(todo) {
+        todo['editing'] = false
+        this.todos.push(todo)
+      }
     }
   }
 </script>
