@@ -1,6 +1,6 @@
 version: '3.7'
 services:
   backend:
-    image: kingmaxwell/todo-service-backend:1.5-SNAPSHOT
+    image: kingmaxwell/todo-service-backend:1.6-SNAPSHOT
     ports:
       - 8090:8080
