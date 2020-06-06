@@ -4,8 +4,10 @@
     <div v-for="(todo,index) in todos" :key="todo.id" class="todo-item">
       <div class="todo-item-left">
         <input type="checkbox" v-model="todo.status">
-        <div v-if="!todo.editing" @dblclick="editTodo(todo)" class="todo-item-label" :class="{ completed : todo.status }">{{ todo.name }}</div>
-        <input v-else class="todo-item-edit" type="text" v-model="todo.name" @blur="doneEdit(todo)"
+        <div v-if="!todo.editing" @dblclick="editTodo(todo)" class="todo-item-label"
+             :class="{ completed : todo.status }">{{ todo.description }}
+        </div>
+        <input v-else class="todo-item-edit" type="text" v-model="todo.description" @blur="doneEdit(todo)"
                @keyup.enter="doneEdit(todo)" @keyup.esc="cancelEdit(todo)" v-focus>
       </div>
       <div class="remove-item" @click="removeTodo(index)">
@@ -16,36 +18,23 @@
 </template>
 
 <script>
+  import axios from "axios";
+
   export default {
     name: 'todo-list',
     data() {
       return {
         newTodo: '',
-        idForTodo: 3,
         beforeEditCache: '',
-        todos: [{
-          "description": "todo",
-          "dueDate": "2020-01-10T07:30",
-          "id": 1,
-          "name": "Clean kitchen",
-          "status": true,
-          "editing": false
-        }, {
-          "description": "todo",
-          "dueDate": "2020-02-10T07:30",
-          "id": 2,
-          "name": "Buy toilet paper",
-          "status": true,
-          "editing": false
-        }, {
-          "description": "todo",
-          "dueDate": "2020-03-10T07:30",
-          "id": 3,
-          "name": "Become a prepper",
-          "status": false,
-          "editing": false
-        }]
+        todos: []
       }
+    },
+    created() {
+      axios
+        .get('http://localhost:8090/backend-1.4-SNAPSHOT/api/todos/all')
+        .then(response => (this.todos = response.data), error => {
+          console.error(error);
+        });
     },
     directives: {
       focus: {
@@ -61,22 +50,26 @@
         }
 
         this.todos.push({
-          description: '',
+          description: this.newTodo,
           dueDate: '',
-          id: this.idForTodo,
-          name: this.newTodo,
+          id: '',
+          name: '',
           status: false,
           editing: false
         })
 
         this.newTodo = ''
-        this.idForTodo++
       },
       removeTodo(index) {
         this.todos.splice(index, 1)
+        axios
+          .delete('http://localhost:8090/backend-1.4-SNAPSHOT/api/todos/' + index)
+          .then(response => (console.log(response.status)), error => {
+            console.error(error);
+          });
       },
       editTodo(todo) {
-        this.beforeEditCache = todo.name
+        this.beforeEditCache = todo.description
         todo.editing = true
       },
       cancelEdit(todo) {
@@ -84,7 +77,7 @@
         todo.name = this.beforeEditCache
       },
       doneEdit(todo) {
-        if (todo.name.trim().length === 0) {
+        if (todo.description.trim().length === 0) {
           todo.name = this.beforeEditCache
         }
         todo.editing = false
@@ -148,6 +141,7 @@
       outline: none;
     }
   }
+
   .completed {
     text-decoration: line-through;
     color: grey;
