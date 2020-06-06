@@ -56,7 +56,7 @@ public class TodoRepository {
     }
 
     public long addTodo(final Todo todo) {
-        LOG.info("Add todo");
+        LOG.info("Add todo: {}", todo);
         em.persist(todo);
         return todo.getId();
     }
@@ -68,7 +68,7 @@ public class TodoRepository {
     }
 
     public void updateTodo(final Todo todo) {
-        LOG.info("Update todo");
+        LOG.info("Update todo: {}", todo);
         em.merge(todo);
     }
 
