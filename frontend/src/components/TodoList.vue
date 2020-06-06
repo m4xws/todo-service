@@ -31,7 +31,7 @@
     },
     created() {
       axios
-        .get('http://localhost:8090/backend-1.4-SNAPSHOT/api/todos/all')
+        .get('http://localhost:8090/backend-1.5-SNAPSHOT/api/todos/all')
         .then(response => (this.todos = response.data), error => {
           console.error(error);
         });
@@ -61,10 +61,9 @@
         this.newTodo = ''
       },
       removeTodo(index) {
-        this.todos.splice(index, 1)
         axios
-          .delete('http://localhost:8090/backend-1.4-SNAPSHOT/api/todos/' + index)
-          .then(response => (console.log(response.status)), error => {
+          .delete('http://localhost:8090/backend-1.5-SNAPSHOT/api/todos/' + index)
+          .then(response => this.todos.splice(index, 1), error => {
             console.error(error);
           });
       },
