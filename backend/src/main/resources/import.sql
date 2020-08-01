@@ -1,3 +1,0 @@
-INSERT INTO TAB_TODO (COL_NAME, COL_DESC, COL_STATE, COL_DUE) VALUES ('Clean kitchen', 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut l', TRUE, '2020-01-10T07:30:00')
-INSERT INTO TAB_TODO (COL_NAME, COL_DESC, COL_STATE, COL_DUE) VALUES ('Buy toilet paper', 'Lorem ipsum dolor sit amet, consetetur sadipscing ', TRUE, '2020-02-10T07:30:00')
-INSERT INTO TAB_TODO (COL_NAME, COL_DESC, COL_STATE, COL_DUE) VALUES ('Become a prepper', 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy ei', FALSE, '2020-03-10T07:30:00')

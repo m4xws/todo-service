@@ -2,8 +2,6 @@ package application.todo;
 
 import domain.Todo;
 
-import java.util.Objects;
-
 public class FullTodoDTO {
     private long id;
 
@@ -83,17 +81,5 @@ public class FullTodoDTO {
                 ", status=" + status +
                 ", dueDate=" + dueDate +
                 '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        FullTodoDTO that = (FullTodoDTO) o;
-        return id == that.id &&
-                status == that.status &&
-                Objects.equals(name, that.name) &&
-                Objects.equals(description, that.description) &&
-                Objects.equals(dueDate, that.dueDate);
     }
 }

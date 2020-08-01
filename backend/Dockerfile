@@ -1,6 +1,7 @@
-FROM jboss/wildfly:19.0.0.Final
+FROM openjdk:8-jre-alpine
 
-ARG WAR_FILE=backend-1.7-SNAPSHOT.war
-
-COPY config/standalone-full.xml $JBOSS_HOME/standalone/configuration/standalone.xml
-COPY target/$WAR_FILE $JBOSS_HOME/standalone/deployments/$WAR_FILE
+# copy jar
+COPY target/todo-service-runner.jar .
+EXPOSE 8080
+# run jar
+ENTRYPOINT [ "java", "-jar", "todo-service-runner.jar"]

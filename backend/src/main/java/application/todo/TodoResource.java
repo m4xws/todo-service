@@ -23,7 +23,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,14 +34,6 @@ public class TodoResource {
 
     @Inject
     private TodoService todoService;
-
-    public TodoResource() {
-        LOG.info("Todo Resource created");
-    }
-
-    public TodoResource(final TodoService todoService) {
-        this.todoService = todoService;
-    }
 
     @GET
     @Path("/all")

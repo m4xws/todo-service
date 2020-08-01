@@ -4,7 +4,6 @@ import domain.TodoValidationErrorPayload;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.Objects;
 
 public class BaseTodoDTO {
 
@@ -66,16 +65,5 @@ public class BaseTodoDTO {
     public String toString() {
         return "BaseTodoDTO{" + "name='" + name + '\'' + ", description='" + description + '\'' + ", status=" + status + ", dueDate=" + dueDate
                 + '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
-        BaseTodoDTO that = (BaseTodoDTO) o;
-        return status == that.status && Objects.equals(name, that.name) && Objects.equals(description, that.description)
-                && Objects.equals(dueDate, that.dueDate);
     }
 }
