@@ -16,7 +16,7 @@ public class ReadinessHealthCheck implements HealthCheck {
 
     private static final Logger LOG = LoggerFactory.getLogger(ReadinessHealthCheck.class);
 
-    @Resource(name = "ExampleDS")
+    @Resource
     DataSource datasource;
 
     @Override

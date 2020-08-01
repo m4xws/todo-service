@@ -2,8 +2,7 @@ version: '3.7'
 services:
 
   backend:
-    build:
-      context: backend
+    image: maxweis/todo-service:1.0-SNAPSHOT
     ports:
       - 8080:8080
     depends_on:
@@ -16,4 +15,4 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     ports:
-    - 5432:5432
+      - 5432:5432
