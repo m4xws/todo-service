@@ -1,1 +1,36 @@
-<p>tododetail works!</p>
+<h1 mat-dialog-title>Todo detail</h1>
+
+<mat-dialog-content>
+
+  <!-- Name -->
+  <p>{{ todo.name }}</p>
+  <mat-form-field appearance="standard" *ngIf="edit">
+    <mat-label>{{ todo.name }}</mat-label>
+    <input matInput placeholder="name">
+    <mat-icon matSuffix>person</mat-icon>
+  </mat-form-field>
+  <mat-divider></mat-divider>
+  <!-- Description -->
+  <p>{{ todo.description }}</p>
+  <mat-form-field appearance="standard" *ngIf="edit">
+    <mat-label>{{ todo.description }}</mat-label>
+    <textarea matInput placeholder="I should do ..."></textarea>
+  </mat-form-field>
+  <mat-divider></mat-divider>
+
+
+  <!-- TODO: https://material.angular.io/components/datepicker/examples fertig machen -->
+  <p>{{ todo.dueDate }}</p>
+  <mat-form-field appearance="fill">
+    <mat-label>due</mat-label>
+    <input matInput [matDatepicker]="dp" [formControl]="date">
+    <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+    <mat-datepicker #dp></mat-datepicker>
+  </mat-form-field>
+
+</mat-dialog-content>
+
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close>Close</button>
+  <button mat-button mat-dialog-close disabled>Save</button>
+</div>
