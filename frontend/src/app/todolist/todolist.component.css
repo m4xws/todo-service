@@ -1,0 +1,14 @@
+.mat-column-status {
+  flex: none;
+  width: 75px;
+}
+
+.mat-column-id {
+  flex: none;
+  width: 75px;
+}
+
+.mat-column-name {
+  flex: none;
+  width: 70%;
+}

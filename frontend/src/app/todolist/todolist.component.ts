@@ -9,7 +9,7 @@ import {Todo} from "../shared/todo";
 })
 export class TodolistComponent implements OnInit {
 
-  displayedColumns: string[] = ['id', 'name', 'dueDate'];
+  displayedColumns: string[] = ['status','id', 'name', 'dueDate'];
 
   dataSource: Todo[];
 

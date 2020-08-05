@@ -1,4 +1,12 @@
 <mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="margin: 3rem;">
+
+  <ng-container matColumnDef="status">
+    <mat-header-cell *matHeaderCellDef>status</mat-header-cell>
+    <mat-cell *matCellDef="let todo">
+      <mat-checkbox [checked]="todo.status"></mat-checkbox>
+    </mat-cell>
+  </ng-container>
+
   <!-- Position Column -->
   <ng-container matColumnDef="id">
     <mat-header-cell *matHeaderCellDef> No.</mat-header-cell>
