@@ -4,7 +4,7 @@ services:
   backend:
     image: maxweis/todo-service:1.0-SNAPSHOT
     ports:
-      - 8080:8080
+      - 8090:8080
     depends_on:
       - postgres
 
