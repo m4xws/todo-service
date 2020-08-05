@@ -9,6 +9,8 @@ import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatTableModule} from '@angular/material/table';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatIconModule} from '@angular/material/icon';
+import {MatButtonModule} from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,9 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     NoopAnimationsModule,
     MatToolbarModule,
     MatTableModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatIconModule,
+    MatButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -12,3 +12,13 @@
   flex: none;
   width: 70%;
 }
+
+.mat-column-action {
+  flex: none;
+  width: 50px;
+}
+
+.mat-row:hover {
+  background-color: #F5F5F5;
+}
+
